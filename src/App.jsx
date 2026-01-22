@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Link, Route, Routes } from "react-router-dom";
 import heroPhoto from "./images/IMG_2675.JPG";
 import duoPhoto from "./images/IMG_2681.JPG";
 import galleryOne from "./images/034FE6EF-315E-4481-B337-D4BF47811D70.PNG";
@@ -8,6 +9,7 @@ import galleryFour from "./images/IMG_2664.JPG";
 import galleryFive from "./images/IMG_2673.JPG";
 import gallerySix from "./images/IMG_2680.JPG";
 import gallerySeven from "./images/IMG_7886.jpg";
+import OrderOfCeremony from "./OrderOfCeremony.jsx";
 
 const content = {
   en: {
@@ -173,78 +175,16 @@ const listItemMotion = {
   }),
 };
 
-export default function App() {
-  const [lang, setLang] = useState("en");
-  const copy = content[lang];
-  const gallery = [
-    galleryOne,
-    galleryTwo,
-    galleryFour,
-    galleryFive,
-    heroPhoto,
-    gallerySix,
-    duoPhoto,
-    gallerySeven,
-  ];
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => setIsLoading(false), 5000);
-    return () => clearTimeout(timeoutId);
-  }, []);
-
-  useEffect(() => {
-    if (gallery.length <= 1) return;
-    const intervalId = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % gallery.length);
-    }, 4200);
-    return () => clearInterval(intervalId);
-  }, [gallery.length]);
-
+function Home({
+  copy,
+  lang,
+  setLang,
+  gallery,
+  activeIndex,
+  setActiveIndex,
+}) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#fffaf5] via-[#fdf8f2] to-[#f8efe7] text-slate-700">
-      <AnimatePresence>
-        {isLoading && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-[#fffaf5]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="flex flex-col items-center gap-3 rounded-3xl border border-[#f1e6dc] bg-white/90 px-6 py-6 text-center shadow-lg">
-              <motion.div
-                className="flex items-center gap-3 text-3xl"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.4 }}
-              >
-                <span>💍</span>
-                <span>✨</span>
-                <span>❤️</span>
-              </motion.div>
-              <p className="text-2xl font-semibold text-slate-800">
-                {content.en.preloader.line}
-              </p>
-              <p className="text-xl font-semibold text-slate-700">
-                {content.es.preloader.line}
-              </p>
-              <p className="text-xs uppercase tracking-[0.3em] text-[#c7926b]">
-                {content.en.preloader.subline}
-              </p>
-              <p className="text-xs uppercase tracking-[0.3em] text-[#c7926b]">
-                {content.es.preloader.subline}
-              </p>
-              <div className="mt-2 flex items-center gap-2 text-xs text-slate-400">
-                <span className="h-1 w-1 rounded-full bg-[#c7926b]" />
-                <span>Launching the wedding vibes</span>
-                <span className="h-1 w-1 rounded-full bg-[#c7926b]" />
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
       <div className="mx-auto flex w-full max-w-4xl items-start justify-between px-6 pt-6">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
@@ -294,12 +234,12 @@ export default function App() {
               <p className="mt-3 text-sm text-slate-500">
                 {copy.heroNote}
               </p>
-              <a
-                href="#"
+              <Link
+                to="/order-of-ceremony"
                 className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-[#c7926b] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#b37e58] sm:w-auto"
               >
                 {copy.orderButton}
-              </a>
+              </Link>
             </div>
             <div
               className="relative min-h-[240px] overflow-hidden rounded-3xl bg-slate-200"
@@ -493,5 +433,100 @@ export default function App() {
         {copy.husbandCredit}
       </div>
     </div>
+  );
+}
+
+export default function App() {
+  const [lang, setLang] = useState("en");
+  const copy = content[lang];
+  const gallery = [
+    galleryOne,
+    galleryTwo,
+    galleryFour,
+    galleryFive,
+    heroPhoto,
+    gallerySix,
+    duoPhoto,
+    gallerySeven,
+  ];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => setIsLoading(false), 5000);
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  useEffect(() => {
+    if (gallery.length <= 1) return;
+    const intervalId = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % gallery.length);
+    }, 4200);
+    return () => clearInterval(intervalId);
+  }, [gallery.length]);
+
+  return (
+    <>
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#fffaf5]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="flex flex-col items-center gap-3 rounded-3xl border border-[#f1e6dc] bg-white/90 px-6 py-6 text-center shadow-lg">
+              <motion.div
+                className="flex items-center gap-3 text-3xl"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                <span>💍</span>
+                <span>✨</span>
+                <span>❤️</span>
+              </motion.div>
+              <p className="text-2xl font-semibold text-slate-800">
+                {content.en.preloader.line}
+              </p>
+              <p className="text-xl font-semibold text-slate-700">
+                {content.es.preloader.line}
+              </p>
+              <p className="text-xs uppercase tracking-[0.3em] text-[#c7926b]">
+                {content.en.preloader.subline}
+              </p>
+              <p className="text-xs uppercase tracking-[0.3em] text-[#c7926b]">
+                {content.es.preloader.subline}
+              </p>
+              <div className="mt-2 flex items-center gap-2 text-xs text-slate-400">
+                <span className="h-1 w-1 rounded-full bg-[#c7926b]" />
+                <span>Launching the wedding vibes</span>
+                <span className="h-1 w-1 rounded-full bg-[#c7926b]" />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              copy={copy}
+              lang={lang}
+              setLang={setLang}
+              gallery={gallery}
+              activeIndex={activeIndex}
+              setActiveIndex={setActiveIndex}
+            />
+          }
+        />
+        <Route
+          path="/order-of-ceremony"
+          element={<OrderOfCeremony lang={lang} />}
+        />
+      </Routes>
+    </>
   );
 }
