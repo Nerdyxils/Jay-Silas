@@ -81,6 +81,10 @@ const content = {
     },
     orderButton:
       "Click here for the Schedule (if Silas remembered to upload it)",
+    preloader: {
+      line: "Spoiler: Silas is. 🥳",
+      subline: "The lucky guy. Loading the love...",
+    },
   },
   es: {
     languageSwitchLabel: "Cambiar idioma",
@@ -153,6 +157,10 @@ const content = {
     },
     orderButton:
       "Haz clic aquí para el programa (Si Silas se acordó de subirlo)",
+    preloader: {
+      line: "Spoiler: Silas sí. 🥳",
+      subline: "El suertudo. Cargando el amor...",
+    },
   },
 };
 
@@ -179,6 +187,12 @@ export default function App() {
     gallerySeven,
   ];
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => setIsLoading(false), 5000);
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   useEffect(() => {
     if (gallery.length <= 1) return;
@@ -190,6 +204,47 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#fffaf5] via-[#fdf8f2] to-[#f8efe7] text-slate-700">
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#fffaf5]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="flex flex-col items-center gap-3 rounded-3xl border border-[#f1e6dc] bg-white/90 px-6 py-6 text-center shadow-lg">
+              <motion.div
+                className="flex items-center gap-3 text-3xl"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                <span>💍</span>
+                <span>✨</span>
+                <span>❤️</span>
+              </motion.div>
+              <p className="text-2xl font-semibold text-slate-800">
+                {content.en.preloader.line}
+              </p>
+              <p className="text-xl font-semibold text-slate-700">
+                {content.es.preloader.line}
+              </p>
+              <p className="text-xs uppercase tracking-[0.3em] text-[#c7926b]">
+                {content.en.preloader.subline}
+              </p>
+              <p className="text-xs uppercase tracking-[0.3em] text-[#c7926b]">
+                {content.es.preloader.subline}
+              </p>
+              <div className="mt-2 flex items-center gap-2 text-xs text-slate-400">
+                <span className="h-1 w-1 rounded-full bg-[#c7926b]" />
+                <span>Launching the wedding vibes</span>
+                <span className="h-1 w-1 rounded-full bg-[#c7926b]" />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="mx-auto flex w-full max-w-4xl items-start justify-between px-6 pt-6">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
