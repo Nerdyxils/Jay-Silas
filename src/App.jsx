@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import heroPhoto from "./images/IMG_2675.JPG";
 import duoPhoto from "./images/IMG_2681.JPG";
+import galleryOne from "./images/034FE6EF-315E-4481-B337-D4BF47811D70.PNG";
+import galleryTwo from "./images/39792969-fd48-459f-a706-d8418af3cb4a.JPG";
+import galleryFour from "./images/IMG_2664.JPG";
+import galleryFive from "./images/IMG_2673.JPG";
+import gallerySix from "./images/IMG_2680.JPG";
+import gallerySeven from "./images/IMG_7886.jpg";
 
 const content = {
   en: {
     languageSwitchLabel: "Language Switch",
     languageOptions: { en: "EN", es: "ES" },
+    languagePrompt: "Tap ES for the Spanish version 💛",
     heroEyebrow: "Wedding Ceremony v1",
     heroPhotoAlt: "Silas and Jocabed smiling together",
     duoPhotoAlt: "Silas and Jocabed portrait",
@@ -19,12 +26,17 @@ const content = {
     why: {
       title: "Why We're Here",
       body:
-        "Honestly? Cake. And maybe Nigerian Jollof at the end... if the caterer didn’t miss a turn. Also, we’re getting married, and Silas is trying not to trip.",
+        "Honestly? Cake - Not sure if we have one yet. And maybe Nigerian Jollof at the end... if the caterer didn’t miss a turn. Also, we’re getting married, and Silas is trying not to trip.",
+    },
+    gallery: {
+      title: "Moments We Love",
+      subtitle: "Swipe-worthy memories. No filters, just us.",
+      alt: "Silas and Jocabed moment",
     },
     husbandCredit:
       "Built with ☕ and ❤️ by Silas (The Groom). Version 1.0.0 - No bugs, just features.",
     whoSheIsToMe: {
-      title: "Who She Is To Me",
+      title: "Who She Is To Me (Her Husband)",
       items: [
         "Her loyalty",
         "Her communication",
@@ -73,6 +85,7 @@ const content = {
   es: {
     languageSwitchLabel: "Cambiar idioma",
     languageOptions: { en: "EN", es: "ES" },
+    languagePrompt: "Toca ES para ver todo en español 💛",
     heroEyebrow: "Landing de boda v1",
     heroPhotoAlt: "Silas y Jocabed sonriendo juntos",
     duoPhotoAlt: "Retrato de Silas y Jocabed",
@@ -86,6 +99,11 @@ const content = {
       title: "¿Por qué estamos aquí?",
       body:
         "¿Sinceramente? Pastel. Y quizá jollof nigeriano al final... si el catering no se perdió. También para vernos casar y ver a Silas intentar no tropezarse mientras camina hacia el altar.",
+    },
+    gallery: {
+      title: "Momentos que Amamos",
+      subtitle: "Recuerdos sin filtro, solo nosotros.",
+      alt: "Momento de Silas y Jocabed",
     },
     husbandCredit:
       "Construido con ☕ y ❤️ por Silas (El Novio). Versión 1.0.0 - Sin errores, solo mejoras.",
@@ -150,13 +168,35 @@ const listItemMotion = {
 export default function App() {
   const [lang, setLang] = useState("en");
   const copy = content[lang];
+  const gallery = [
+    galleryOne,
+    galleryTwo,
+    galleryFour,
+    galleryFive,
+    heroPhoto,
+    gallerySix,
+    duoPhoto,
+    gallerySeven,
+  ];
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (gallery.length <= 1) return;
+    const intervalId = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % gallery.length);
+    }, 4200);
+    return () => clearInterval(intervalId);
+  }, [gallery.length]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#fffaf5] via-[#fdf8f2] to-[#f8efe7] text-slate-700">
-      <div className="mx-auto flex w-full max-w-4xl items-center justify-between px-6 pt-6">
+      <div className="mx-auto flex w-full max-w-4xl items-start justify-between px-6 pt-6">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
             {copy.languageSwitchLabel}
+          </p>
+          <p className="mt-2 text-xs font-medium text-[#c7926b]">
+            {copy.languagePrompt}
           </p>
         </div>
         <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 p-1 text-sm shadow-sm">
@@ -250,6 +290,90 @@ export default function App() {
                   </motion.li>
                 ))}
               </ul>
+            </div>
+          </section>
+
+          <section className="rounded-3xl border border-[#f1e6dc] bg-white/85 p-7 shadow-sm">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-800">
+                  {copy.gallery.title}
+                </h3>
+                <p className="mt-1 text-sm text-slate-500">
+                  {copy.gallery.subtitle}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActiveIndex(
+                      (prev) => (prev - 1 + gallery.length) % gallery.length
+                    )
+                  }
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-500 shadow-sm transition hover:text-slate-700"
+                >
+                  Prev
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActiveIndex((prev) => (prev + 1) % gallery.length)
+                  }
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-500 shadow-sm transition hover:text-slate-700"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+            <div className="relative mt-5 overflow-hidden rounded-3xl border border-slate-100 bg-[#fff6ee]">
+              <div className="relative h-[280px] sm:h-[360px]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={gallery[activeIndex]}
+                    className="absolute inset-0"
+                    style={{
+                      backgroundImage: `url(${gallery[activeIndex]})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      filter: "blur(18px)",
+                      transform: "scale(1.08)",
+                      opacity: 0.35,
+                    }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.35 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  />
+                </AnimatePresence>
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={`${gallery[activeIndex]}-main`}
+                    src={gallery[activeIndex]}
+                    alt={`${copy.gallery.alt} ${activeIndex + 1}`}
+                    className="absolute inset-0 h-full w-full object-contain p-4"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.45 }}
+                  />
+                </AnimatePresence>
+              </div>
+              <div className="flex items-center justify-center gap-2 px-4 py-3">
+                {gallery.map((_, index) => (
+                  <button
+                    key={`dot-${index}`}
+                    type="button"
+                    onClick={() => setActiveIndex(index)}
+                    className={`h-2 w-2 rounded-full transition ${
+                      index === activeIndex
+                        ? "bg-[#c7926b]"
+                        : "bg-[#e6d3c5]"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </section>
 
