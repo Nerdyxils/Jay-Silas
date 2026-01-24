@@ -57,6 +57,7 @@ const content = {
         "Social bravery",
         "The gift of listening while others just wait to talk",
         "Her fierce loyalty to her Latina roots",
+        "Her deep loyalty to family values",
         "The friend who turns group chats into actual plans",
         "The memory drive for everyone's birthdays",
       ],
@@ -133,6 +134,7 @@ const content = {
         "Su valentía social",
         "El don de escuchar de verdad",
         "Su lealtad inquebrantable a sus raíces españolas",
+        "Su lealtad a los valores familiares",
         "La que hace que los planes sí pasen",
         "La memoria externa de los cumpleaños",
       ],
@@ -234,12 +236,19 @@ function Home({
               <p className="mt-3 text-sm text-slate-500">
                 {copy.heroNote}
               </p>
-              <Link
-                to="/order-of-ceremony"
-                className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-[#c7926b] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#b37e58] sm:w-auto"
+              <motion.div
+                className="mt-8 inline-flex w-full sm:w-auto"
+                animate={{ scale: [1, 1.04, 1] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
               >
-                {copy.orderButton}
-              </Link>
+                <Link
+                  to="/order-of-ceremony"
+                  className="relative inline-flex w-full items-center justify-center rounded-full bg-[#d2774a] px-6 py-4 text-center text-[0.95rem] font-semibold leading-snug text-white shadow-lg transition hover:bg-[#c45f32] sm:w-auto sm:px-5 sm:py-3 sm:text-sm"
+                >
+                  <span className="absolute inset-0 -z-10 rounded-full bg-[#d2774a]/45 blur-lg" />
+                  {copy.orderButton}
+                </Link>
+              </motion.div>
             </div>
             <div
               className="relative min-h-[240px] overflow-hidden rounded-3xl bg-slate-200"

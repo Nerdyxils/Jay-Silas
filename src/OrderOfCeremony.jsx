@@ -18,7 +18,6 @@ const ceremonyContent = {
       "Hymn — Lead us Heavenly Father, Lead us",
       "Benediction",
       "Recessional Song",
-      "Recessional Hymn",
     ],
     back: "Back to the Love Story",
   },
